@@ -1,0 +1,65 @@
+A Little Help From My Friends
+On process management and signal handling
+
+Aidan Coyle
+Software Engineer - Data Engineering
+acoyle@enova.com
+
+* How does your app run?
+
+In development this is simple, you just build and then run an executable in your terminal.
+
+Stopping is easy, we usually just ctrl-C and it exits.
+
+We're generally not concerned with long runtimes or traffic.
+
+* Production concerns
+
+In a production environment we need to run our applications in a way that ensures:
+
+- Uptime
+- Atomicity
+- Invariants
+
+For this we generally want a dedicated process manager.
+
+* Process managers
+
+There are a variety of different pieces of software for this.
+
+The main function is to control the execution of the application as a child process.
+
+Many provide auxillary bits of "nice to have" functionality.
+
+* Deployments
+
+During a deployment the application needs to be stopped and restarted to load a new version of the code.
+
+The process manager tells the application to stop, and potentially restart via signals.
+
+When the app receives signals it should shutdown (and possibly restart) safely.
+
+* Why has this been painful with Go?
+
+We've seen this fail in production Go apps several ways
+
+- Processes terminating before cleaning up after themselves
+- Multiple copies of an application running or long restart times
+- Crashes in one part of the app can terminate it before others can catch it
+
+Applications using message queues or background processing are particularly susceptible
+
+* Why does this work in Ruby?
+
+We've run ruby for years without seeing issues like this
+
+- Different concerns are in different processes
+- Signal handling is in stable shared tools
+
+* Conclusions
+
+Process management is difficult enough without making it hard for ourselves.
+
+- Use a dedicated process manager when you want to do multiple things.
+- Find tools that handle signals without us having to know about it
+- If no such tools exist, build tools for a specific application.
