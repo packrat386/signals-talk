@@ -29,13 +29,13 @@ There are a variety of different pieces of software for this.
 
 The main function is to control the execution of the application as a child process.
 
-Many provide auxillary bits of "nice to have" functionality.
+Many provide other bits of "nice to have" functionality.
 
 * Deployments
 
 During a deployment the application needs to be stopped and restarted to load a new version of the code.
 
-The process manager tells the application to stop, and potentially restart via signals.
+The process manager tells the application to stop, and potentially restart, via signals.
 
 When the app receives signals it should shutdown (and possibly restart) safely.
 
